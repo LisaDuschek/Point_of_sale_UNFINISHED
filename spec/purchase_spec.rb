@@ -2,6 +2,12 @@ require('spec_helper')
 
 describe (Purchase) do
 
+
+    it("validates presence of date") do
+      purchase = Purchase.new({:date => ""})
+      expect(purchase.save()).to(eq(false))
+    end
+
   describe('#products') do
     it("tells which products belong to a purchase") do
       test_purchase=Purchase.create({:date => "2015-10-01"})

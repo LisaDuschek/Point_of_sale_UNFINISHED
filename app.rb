@@ -15,12 +15,16 @@ get('/purchases') do
   erb(:purchases)
 end
 
-post('/purchases/new') do
+post('/purchases') do
+	@purchases = Purchase.all()
+	erb(:purchases)
   date = params.fetch('date')
-  purchase = Purchase.new({:date =>date, :id => nil})
-  purchase.save()
-  @purchases = Purchase.all()
+  @purchase = Purchase.new({:date =>date})
+  if @purchase.save()
   erb(:purchases)
+  else
+  erb(:errors_purchase)
+end
 end
 
 get('/products') do
@@ -29,12 +33,15 @@ get('/products') do
 end
 
 post('/products/new') do
+	@products = Product.all()
   description = params.fetch('description')
   price = params.fetch('price')
-  product = Product.new({:description => description, :price=> price, :id => nil})
-  product.save()
-  @products = Product.all()
+  @product = Product.new({:description => description, :price=> price})
+  if @product.save()
   erb(:products)
+  else
+	erb(:errors)
+end
 end
 
 get('/products/:id') do
@@ -56,6 +63,37 @@ end
 delete('/products/:id') do
   @product = Product.find(params.fetch('id').to_i())
   @product.delete()
-  @product = Product.all()
+  @products = Product.all()
   erb(:products)
+end
+
+get('/purchases/:id') do
+	@purchases = Purchase.all()
+	@purchase = Purchase.find(params.fetch("id").to_i)
+	erb(:purchase)
+end
+
+patch("/purchases/:id") do
+	date = params.fetch("date")
+	@purchase = Purchase.find(params.fetch('id').to_i())
+	@purchase.update({:date => date})
+	@purchases = Purchase.all()
+	@purchase = Purchase.find(params.fetch('id').to_i())
+	erb(:purchase)
+end
+
+delete('/purchases/:id') do
+	@purchase = Purchase.find(params.fetch('id').to_i())
+	@purchase.delete()
+	@purchases = Purchase.all()
+	erb(:purchases)
+end
+
+post('/products') do
+	@products = Product.all()
+	@product = Product.new({:description => description, :price=> price, :id => nil})
+	description = params.fetch("description")
+	price = params.fetch("price").to_i()
+	id = params.fetch("id").to_i()
+	erb(:purchase)
 end

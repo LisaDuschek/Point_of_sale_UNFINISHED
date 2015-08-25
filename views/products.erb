@@ -3,15 +3,22 @@
 <% if @products.any?() %>
   <h3>Here are all the products:</h3>
 
-  <ul>
+  <form action="/purchases" method="post">
+    <input type="hidden" name="_method" value="patch">
     <% @products.each() do |product| %>
-    <li><a href="/products/<%= product.id() %>"><%= product.description() %> <%= product.price() %></a></li>
-    <% end %>
-  </ul>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="product_ids[]" value="<%= product.id() %>"><%= product.description() %>
+        </label>
+      </div>
+      <% end %>
+    <button type="submit">Add products</button>
+  </form>
 
 <% else %>
   <h3>Sadly there are no products yet to sell.</h3>
-  <% end %>
+<% end %>
+
 
 
 <h1>Please add a product:</h1>
@@ -19,10 +26,10 @@
 <form action="/products/new" method="post">
   <div class="form-group">
     <label for="description">Please enter description of product:</label>
-    <input id="description" name="description" type="test">
+    <input id="description" name="description" type="text">
 
     <label for="price">Please enter price of product:</label>
-    <input id="price" name="price" type="test">
+    <input id="price" name="price" type="text">
   </div>
 
 
