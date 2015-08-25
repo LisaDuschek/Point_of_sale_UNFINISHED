@@ -1,0 +1,28 @@
+<h1>Here are all purchases:</h1>
+
+<% if @purchases.any?() %>
+	<h3>Here are all the purchases:</h3>
+
+	<ul>
+		<% @purchases.each() do |purchase| %>
+    <li><a href="/purchases/<%= purchase.id() %>"><%= purchase.date() %></a></li>
+		<% end %>
+	</ul>
+
+<% else %>
+	<h3>There are no purchases yet!</h3>
+	<% end %>
+
+
+<h1>Please add a purchase:</h1>
+
+<form action="/purchases/new" method="post">
+	<div class="form-group">
+		<label for="date">Please enter purchase date:</label>
+		<input id="date" name="date" type="test">
+	</div>
+
+	<button type="submit" class="btn-success">Add purchase!</button>
+</form>
+
+<p><a href="/">Back to home</a></p>
